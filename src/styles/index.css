@@ -1,4 +1,5 @@
 /* Desenvolva a estilização da sua página aqui */
+@import "https://unpkg.com/open-props";
 header{
     display: flex;
     align-items: center;
@@ -153,4 +154,131 @@ img{
     font-size: var(--font-size-4);
     border-radius: var(--radius-2);
     font-weight: var(--font-weight-2);
+}
+
+.modal__controller{
+    z-index: 10; 
+    width: 90%; 
+    max-width: 600px; 
+    border-radius: var(--radius-1); 
+    border: none; 
+    padding: 20px; 
+     margin: 56px auto;
+     height: 450px;
+}
+
+.modal__container{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+   margin: 0 auto;
+}
+
+.modal__container p{
+    font-size: var(--font-size-2);
+    font-weight: var(--font-weight-3);
+    color: var(--color-grey-2);
+    line-height: var(--font-line-height-1);
+}
+.div-title-exit{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.div-title-exit h2{
+    font-size: var(--font-size-2);
+    font-weight: var(--font-weight-1);
+    color: var(--color-grey-1);
+}
+
+.div-title-exit button{
+    padding: 6px 12px 4px 12px;
+    font-size: var(--font-size-2);
+    font-weight: var(--font-weight-2);
+    border: none;
+    border-radius: var(--radius-2);
+    background-color: var(--color-grey-5);
+}
+
+.form-modal{
+    display: flex;
+     flex-direction: column;
+     gap: 8px;
+}
+
+.input-value{
+    padding: 15.5px 0;
+    border-radius: var(--radius-1);
+    border: 2px solid var(--color-grey-3);
+}
+
+.label-input-value{
+    font-size: var(--font-size-3);
+    font-weight: var(--font-weight-2);
+}
+
+.div-type-value{
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.div-type-value label{
+    font-size: var(--font-size-3);
+    font-weight: var(--font-weight-2);
+}
+
+.div-type-value button{
+    padding: 7.5px 125px;
+    border-radius: var(--radius-1);
+    background-color: var(--fixed-white);
+    border: 2px solid var(--color-grey-5);
+    font-size: var(--font-size-3);
+    font-weight: var(--font-weight-1);
+    color: var(--color-grey-2);
+}
+
+.div-buttons-modal{
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+}
+
+
+.div-buttons-modal button{
+    padding: 9px 0;
+    width: 100%;
+    border-radius: var(--radius-1);
+    font-size: var(--font-size-3);
+    font-weight: var(--font-weight-1);
+    border: none;
+    background-color: var(--color-grey-4);
+}
+@media(min-width: 1050px){
+    .div-type-value{
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+    }
+    .div-type-value button{
+        padding: 7.5px 14px;
+    }
+    .modal__controller{
+        height: 360px;
+        width: 500px;
+    }
+    .div-buttons-modal{
+        align-self: flex-end;
+    }
+    .div-buttons-modal button{
+        padding: 7px 0px;
+        width: 102px;
+    }
+}
+.div-buttons-modal button:nth-child(2){
+    color: var(--fixed-white);
+    background-color: var(--color-brand-1);
 }

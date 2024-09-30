@@ -17,7 +17,13 @@ function renderHeader() {
     divHeader.append(titleHeader, buttonHeader);
     header.append(divHeader);
     document.body.insertBefore(header, app);
+
+    let modal = document.querySelector(".modal__controller");
+    buttonHeader.addEventListener("click", function () {
+        modal.showModal();
+    });
 }
+
 let main = document.querySelector("#app");
 function renderMain(list) {
     renderNavBar(list);
@@ -27,9 +33,13 @@ function renderNavBar(list) {
     let navBar = document.createElement("nav");
     let titleNavBar = document.createElement("h2");
     let divFilter = document.createElement("div");
-    let buttonAll = document.createElement("button");
     let buttonEntries = document.createElement("button");
     let buttonExits = document.createElement("button");
+    let buttonAll = document.createElement("button");
+
+    buttonEntries.id = "buttons-nav-bar";
+    buttonExits.id = "buttons-nav-bar";
+    buttonAll.id = "buttons-nav-bar";
 
     navBar.className = "nav-bar";
     titleNavBar.innerText = "Resumo financeiro";
@@ -40,6 +50,10 @@ function renderNavBar(list) {
     buttonEntries.className = "button-entries";
     buttonExits.innerText = "Saidas";
     buttonExits.className = "button-exits";
+
+    buttonEntries.setAttribute("data-id", 0);
+    buttonExits.setAttribute("data-id", 1);
+    buttonAll.setAttribute("data-id", 2);
 
     main.append(navBar);
     navBar.append(titleNavBar, divFilter);
@@ -91,6 +105,18 @@ function renderExtract(list) {
         figureDelete.className = "image-bin";
         deleteExtract.src = "./src/assets/trash.png";
 
+        figureDelete.setAttribute("data-id", element.id);
+        figureDelete.addEventListener("click", (e) => {
+            let id = Number(figureDelete.getAttribute("data-id"));
+            const index = list.findIndex((item) => item.id === id);
+            insertedValuesFiltered.splice(index, 1);
+            insertedValues.splice(index, 1);
+            main.parentElement.children[1].removeChild(divSumValues);
+            main.parentElement.children[1].removeChild(listExtract);
+            console.log(list);
+            renderExtract(list);
+        });
+
         listExtract.append(extractLi);
         extractLi.append(priceExtract, divBin);
         divImageBin.append(figureDelete);
@@ -98,6 +124,159 @@ function renderExtract(list) {
         figureDelete.append(deleteExtract);
     });
 }
+let modal = document.querySelector(".modal__controller");
+function renderModal() {
+    let modalContainer = document.querySelector(".modal__container");
+
+    let divTitleExit = document.createElement("div");
+    let titleModal = document.createElement("h2");
+    let textModal = document.createElement("p");
+    let buttonExitModal = document.createElement("button");
+    let formModal = document.createElement("form");
+    let label = document.createElement("label");
+    let inputValue = document.createElement("input");
+    let divTypeValue = document.createElement("div");
+    let typeValue = document.createElement("label");
+    let buttonEntry = document.createElement("button");
+    let buttonExit = document.createElement("button");
+    let divButtonsModal = document.createElement("div");
+    let buttonCancel = document.createElement("button");
+    let buttonInsert = document.createElement("button");
+
+    divTitleExit.append(titleModal, buttonExitModal);
+    formModal.append(label, inputValue, divTypeValue);
+    divTypeValue.append(typeValue, buttonEntry, buttonExit, divButtonsModal);
+    divButtonsModal.append(buttonCancel, buttonInsert);
+    modalContainer.append(
+        divTitleExit,
+        textModal,
+        formModal,
+        divTypeValue,
+        divButtonsModal
+    );
+
+    formModal.className = "form-modal";
+    divTitleExit.className = "div-title-exit";
+    titleModal.innerText = "Registro de valor";
+    buttonExitModal.innerText = "X";
+    textModal.innerText =
+        "Digite o valor e em seguida aperte no botão referente ao tipo do valor ";
+    label.innerText = "Valor";
+    label.className = "label-input-value";
+    inputValue.className = "input-value";
+    typeValue.innerText = "Tipo de valor";
+    typeValue.className = "text-type-value";
+    divTypeValue.className = "div-type-value";
+    buttonEntry.className = "button-entry";
+    buttonEntry.innerText = "Entrada";
+    buttonExit.className = "button-exit";
+    buttonExit.innerText = "Saida";
+    divButtonsModal.className = "div-buttons-modal";
+    buttonCancel.innerText = "Cancelar";
+    buttonCancel.className = "button-cancel";
+    buttonInsert.className = "button-insert";
+    buttonInsert.innerText = "Inserir valor";
+
+    buttonExitModal.addEventListener("click", function () {
+        modal.close();
+    });
+}
+
+function filterExtract(list) {
+    buttonList = document.querySelectorAll("#buttons-nav-bar");
+
+    const removeExistingElements = () => {
+        const divSumValues = document.querySelector(".div-sum-values");
+        const listExtract = document.querySelector(".list-extract");
+
+        divSumValues.remove();
+        listExtract.remove();
+    };
+
+    listButton = Array.from(buttonList);
+    insertedValuesFiltered = [];
+    listButton.map((element) => {
+        element.addEventListener("click", (e) => {
+            let id = Number(element.getAttribute("data-id"));
+
+            if (id === 2) {
+                insertedValuesFiltered = list.slice();
+            } else {
+                insertedValuesFiltered = list.filter(
+                    (extract) => extract.categoryID === id
+                );
+            }
+            removeExistingElements();
+            renderExtract(insertedValuesFiltered);
+        });
+    });
+}
+function addExtract(list) {
+    let formModal = document.querySelector(".form-modal");
+    let input = document.querySelector(".input-value");
+    let buttonEntry = document.querySelector(".button-entry");
+    let buttonExit = document.querySelector(".button-exit");
+    let buttonInsert = document.querySelector(".button-insert");
+    let buttonCancel = document.querySelector(".button-cancel");
+
+    buttonEntry.setAttribute("data-id", 0);
+    buttonExit.setAttribute("data-id", 1);
+    // let idButton = Number(buttonExit.getAttribute("data-id"));
+    // const removeExistingElements = () => {
+    //     const divSumValues = document.querySelector(".div-sum-values");
+    //     const listExtract = document.querySelector(".list-extract");
+
+    //     divSumValues.remove();
+    //     listExtract.remove();
+    // };
+
+    // formModal.addEventListener("submit", (e) => {
+    //     let id = 0;
+    //     e.preventDefault();
+    //     if (buttonExit) {
+    //         id = idButton;
+    //     }
+    //     let newExtract = {
+    //         id: list.length + 1,
+    //         value: input.value,
+    //         categoryID: id,
+    //     };
+    //     list.push(newExtract);
+    // });
+    buttonInsert.addEventListener("click", (e) => {
+        e.preventDefault();
+
+        let id = 0;
+
+        buttonExit.addEventListener("click", (e) => {
+            id = Number(buttonExit.getAttribute("data-id"));
+        });
+        console.log(id);
+
+        let newExtract = {
+            id: list.length + 1,
+            value: value,
+            categoryID: id,
+        };
+        const value = parseFloat(input.value);
+
+        list.push(newExtract);
+        input.value = "";
+        removeExistingElements();
+        renderExtract(list);
+    });
+
+    const removeExistingElements = () => {
+        const divSumValues = document.querySelector(".div-sum-values");
+        const listExtract = document.querySelector(".list-extract");
+
+        divSumValues.remove();
+        listExtract.remove();
+    };
+}
 renderHeader();
 renderMain();
 renderExtract(insertedValues);
+renderModal();
+filterExtract(insertedValues);
+addExtract(insertedValues);

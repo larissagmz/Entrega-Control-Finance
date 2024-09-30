@@ -1,5 +1,5 @@
 const valuesCategory = ["Entrada", "Saída"];
-
+let insertedValuesFiltered = [];
 let insertedValues = [
     {
         id: 1,
